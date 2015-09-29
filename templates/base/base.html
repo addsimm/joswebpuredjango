@@ -1,0 +1,67 @@
+<!-- BASE.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
+    <meta name = "description" content = "Join Our Story Website">
+    <link rel = "icon" href = "static/img/favicon.ico">
+
+    <!-- Scripts -->
+    {% include "base/scripts.html" %}
+
+    <!-- BASE.html -->
+    <style>
+
+        * {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .container {
+            background-color: white;
+            border: solid #000000 2px;
+            float: left;
+            margin-left: 5px;
+            margin-top: 5px;
+            min-height: 715px;
+            padding: 0 15px;
+            width: 950px;
+        }
+
+        .foot {
+            display : table-row;
+            vertical-align : bottom;
+            height : 1px;
+        }
+
+    </style>
+
+    {% if page_name == 'Landing' %}
+
+        <style>
+
+            .container {
+                background: url(/static/img/BGStill480x360.png);
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+
+        </style>
+
+    {% endif %}
+
+    <title>JoinOurStory | {{ page_name }}</title>
+</head>
+
+<body>
+
+<div class = "container" style = ""> <!-- Main Screen -->
+
+
+    {% block body %}{% endblock %}
+
+    {% include "base/footer.html" %}
+
+</div>
+</body>
+</html>
