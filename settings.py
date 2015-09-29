@@ -84,7 +84,7 @@ STATICFILES_FINDERS = (
 )
 
 
-### Secrets from 2 Scooops of Django
+### Secrets from 2 Scooops of Django :)
 
 import json
 
