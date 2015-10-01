@@ -9,21 +9,64 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+
+import os
+# if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
+#     # Running on production App Engine, so use a Google Cloud SQL database.
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'HOST': '/cloudsql/your-project-id:your-instance-name',
+#             'NAME': 'django_test',
+#             'USER': 'root',
+#         }
+#     }
+# elif os.getenv('SETTINGS_MODE') == 'prod':
+#     # Running in development, but want to access the Google Cloud SQL instance
+#     # in production.
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'INSTANCE': 'your-instance-ip-address',
+#             'NAME': 'django_test',
+#             'USER': 'root',
+#             'PASSWORD': 'password',
+#         }
+#     }
+# else:
+#     # Running in development, so use a local MySQL database.
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': 'django_test',
+#             'USER': 'root',
+#             'PASSWORD': 'password',
+#         }
+#     }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '173.194.227.118',
+#       'HOST': '/cloudsql/joswebbase:joswebbasecloudsqlinstance',
+        'NAME': 'test',
+        'USER': 'adam',
+        'PASSWORD': 'Pokeyisnumber2?',
+        'OPTIONS':  {
+            'ssl': {
+                'ca': '/Users/adamsimon/Desktop/server-ca.pem',
+                'cert': '/Users/adamsimon/Desktop/client-cert.pem',
+                'key': '/Users/adamsimon/Desktop/client-key.pem'
+                }
+            }
+        }
     }
-}
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['joswebapp.appspot.com', 'www.joinourstory.com',]
+ALLOWED_HOSTS = ['joswebapp.appspot.com', 'www.joinourstory.com', '127.0.0.1',]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -46,7 +89,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -123,7 +166,6 @@ ROOT_URLCONF = 'urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'joswebpuredjango.wsgi.application'
 
-import os
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
