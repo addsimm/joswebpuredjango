@@ -22,6 +22,8 @@ handlers:
 libraries:
 - name: django
   version: "latest"
+- name: MySQLdb
+  version: "latest"
 
 skip_files:
 - ^(.*/)?#.*#$
