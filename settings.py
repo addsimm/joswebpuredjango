@@ -49,6 +49,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '173.194.227.118',
+### Production use:
 #       'HOST': '/cloudsql/joswebbase:joswebbasecloudsqlinstance',
         'NAME': 'test',
         'USER': 'adam',
@@ -125,7 +126,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
 
 ### Secrets from 2 Scooops of Django
 
