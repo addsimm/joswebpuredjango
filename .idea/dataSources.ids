@@ -54,6 +54,7 @@
       <exported-key name="user_id_refs_id_40c41112" table="auth_user_groups" schema="" catalog="test" columns="user_id"/>
       <exported-key name="user_id_refs_id_4dc23c39" table="auth_user_user_permissions" schema="" catalog="test" columns="user_id"/>
       <exported-key name="user_id_refs_id_c0d12874" table="django_admin_log" schema="" catalog="test" columns="user_id"/>
+      <exported-key name="user_id_refs_id_e6cbdf29" table="social_auth_usersocialauth" schema="" catalog="test" columns="user_id"/>
       <index name="username" unique="true" columns="username"/>
     </table>
     <table name="auth_user_groups" schema="" catalog="test" type="TABLE">
@@ -115,6 +116,44 @@
       <column name="domain" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
       <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="social_auth_association" schema="" catalog="test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="server_url" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="handle" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="secret" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="issued" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="lifetime" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="assoc_type" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="social_auth_code" schema="" catalog="test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="email" sqlType="VARCHAR" precision="254" scale="0" nullable="false" jdbcType="12"/>
+      <column name="code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
+      <column name="verified" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="email" unique="true" columns="email,code"/>
+      <index name="social_auth_code_09bb5fb3" unique="false" columns="code"/>
+    </table>
+    <table name="social_auth_nonce" schema="" catalog="test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="server_url" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="timestamp" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="salt" sqlType="VARCHAR" precision="65" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="server_url" unique="true" columns="server_url,timestamp,salt"/>
+    </table>
+    <table name="social_auth_usersocialauth" schema="" catalog="test" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="provider" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
+      <column name="uid" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="extra_data" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="user_id_refs_id_e6cbdf29" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="provider" unique="true" columns="provider,uid"/>
+      <index name="social_auth_usersocialauth_6340c63c" unique="false" columns="user_id"/>
     </table>
   </data-source>
 </component>
