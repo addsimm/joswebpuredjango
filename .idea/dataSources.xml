@@ -6,7 +6,7 @@
       <synchronize>true</synchronize>
       <auto-commit>false</auto-commit>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://173.194.227.118/test</jdbc-url>
+      <jdbc-url>jdbc:mysql:///cloudsql/joswebbase:joswebbasecloudsqlinstance/test</jdbc-url>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />
