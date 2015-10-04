@@ -184,14 +184,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
+    'lib.social.apps.django_app.context_processors.backends',
+    'lib.social.apps.django_app.context_processors.login_redirect',
 )
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.facebook.FacebookOAuth2',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.twitter.TwitterOAuth',
+    'lib.social.backends.facebook.FacebookOAuth2',
+    'lib.social.backends.google.GoogleOAuth2',
+    'lib.social.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -208,13 +208,13 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'social.apps.django_app.default',
+    'lib.social.apps.django_app.default',
     'joswebcloudsql',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
-SOCIAL_AUTH_STRATEGY = 'social.strategies.django_strategy.DjangoStrategy'
-SOCIAL_AUTH_STORAGE = 'social.apps.django_app.default.models.DjangoStorage'
+SOCIAL_AUTH_STRATEGY = 'lib.social.strategies.django_strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'lib.social.apps.django_app.default.models.DjangoStorage'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
