@@ -11,28 +11,45 @@ MANAGERS = ADMINS
 
 
 import os
-# if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
-#     # Running on production App Engine, so use a Google Cloud SQL database.
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.mysql',
-#             'HOST': '/cloudsql/your-project-id:your-instance-name',
-#             'NAME': 'django_test',
-#             'USER': 'root',
-#         }
-#     }
-# elif os.getenv('SETTINGS_MODE') == 'prod':
-#     # Running in development, but want to access the Google Cloud SQL instance
-#     # in production.
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.mysql',
-#             'INSTANCE': 'your-instance-ip-address',
-#             'NAME': 'django_test',
-#             'USER': 'root',
-#             'PASSWORD': 'password',
-#         }
-#     }
+print 'os.getenv'
+print os.getenv('SERVER_SOFTWARE', '')
+if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
+    # Running on production App Engine, so use a Google Cloud SQL database.
+    DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '/cloudsql/joswebbase:joswebbasecloudsqlinstance',
+        'NAME': 'test',
+        'USER': 'root',
+        'PASSWORD': 'Pokey'
+        # 'OPTIONS':  {
+        #     'ssl': {
+        #         'ca': '/Users/adamsimon/Desktop/server-ca.pem',
+        #         'cert': '/Users/adamsimon/Desktop/client-cert.pem',
+        #         'key': '/Users/adamsimon/Desktop/client-key.pem'
+        #         }
+        #     }
+        }
+    }
+else:
+    # Running in development, but want to access the Google Cloud SQL instance
+    DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '173.194.227.118',
+        'NAME': 'test',
+        'USER': 'adam',
+        'PASSWORD': 'Pokey',
+        'OPTIONS':  {
+            'ssl': {
+                'ca': '/Users/adamsimon/Desktop/server-ca.pem',
+                'cert': '/Users/adamsimon/Desktop/client-cert.pem',
+                'key': '/Users/adamsimon/Desktop/client-key.pem'
+                }
+            }
+        }
+    }
+
 # else:
 #     # Running in development, so use a local MySQL database.
 #     DATABASES = {
@@ -45,23 +62,6 @@ import os
 #     }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '173.194.227.118',
-#       'HOST': '/cloudsql/joswebbase:joswebbasecloudsqlinstance',
-        'NAME': 'test',
-        'USER': 'adam',
-        'PASSWORD': 'Pokeyisnumber2?',
-        'OPTIONS':  {
-            'ssl': {
-                'ca': '/Users/adamsimon/Desktop/server-ca.pem',
-                'cert': '/Users/adamsimon/Desktop/client-cert.pem',
-                'key': '/Users/adamsimon/Desktop/client-key.pem'
-                }
-            }
-        }
-    }
 
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -126,8 +126,12 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
+<<<<<<< HEAD
 
 ### Secrets from 2 Scooops of Django :)
+=======
+### Secrets from 2 Scooops of Django
+>>>>>>> Development
 
 import json
 
@@ -143,6 +147,10 @@ def get_secret(setting, secrets=secrets):
         raise ImproperlyConfigured(error_msg)
 
 SECRET_KEY = get_secret("SECRET_KEY")
+SOCIAL_AUTH_FACEBOOK_KEY = get_secret("SOCIAL_AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = get_secret("SOCIAL_AUTH_FACEBOOK_SECRET")
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = get_secret("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = get_secret("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -181,9 +189,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
-#    'social.apps.django_app.context_processors.backends',
-#    'social.apps.django_app.context_processors.login_redirect',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_REDIRECT_URL = '/'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -196,10 +213,13 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'social.apps.django_app.default',
     'joswebcloudsql',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+SOCIAL_AUTH_STRATEGY = 'social.strategies.django_strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'social.apps.django_app.default.models.DjangoStorage'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
