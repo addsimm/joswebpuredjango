@@ -13,7 +13,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url('', include('django.contrib.auth.urls', namespace='auth')),
-    url('', include('lib.social.apps.django_app.urls', namespace = 'social')),
+    url('', include('social.apps.django_app.urls', namespace = 'social')),
     url(r'login', 'joswebcloudsql.views.login', name = 'login'),
     url(r'^$', 'joswebcloudsql.views.landing_page', name = 'landing_page')
 )
