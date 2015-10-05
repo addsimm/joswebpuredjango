@@ -126,13 +126,6 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-<<<<<<< HEAD
-
-### Secrets from 2 Scooops of Django :)
-=======
-### Secrets from 2 Scooops of Django
->>>>>>> Development
-
 import json
 
 with open("joskeepshhh.json") as f:
