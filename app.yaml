@@ -26,6 +26,8 @@ libraries:
   version: "latest"
 - name: ssl
   version: "latest"
+- name: PIL
+  version: "latest"
 
 skip_files:
 - ^(.*/)?#.*#$

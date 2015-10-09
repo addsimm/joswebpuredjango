@@ -1,5 +1,10 @@
 # Django settings for joswebpuredjango project.
 
+# -*- coding: utf-8 -*-
+import os
+gettext = lambda s: s
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
