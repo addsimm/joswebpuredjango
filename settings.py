@@ -42,9 +42,9 @@ else:
         'PASSWORD': 'Pokey',
         'OPTIONS':  {
             'ssl': {
-                'ca': '/Users/adamsimon/Desktop/server-ca.pem',
-                'cert': '/Users/adamsimon/Desktop/client-cert.pem',
-                'key': '/Users/adamsimon/Desktop/client-key.pem'
+                'ca':   '/Users/adamsimon/Pycharm Projects/JOSRemoteSSL/server-ca.pem',
+                'cert': '/Users/adamsimon/Pycharm Projects/JOSRemoteSSL/client-cert.pem',
+                'key':  '/Users/adamsimon/Pycharm Projects/JOSRemoteSSL/client-key.pem'
                 }
             }
         }
