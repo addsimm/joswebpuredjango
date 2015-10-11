@@ -4,7 +4,10 @@
 import os
 import json
 gettext = lambda s: s
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PRE_BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.join(PRE_BASE_DIR, "joswebpuredjango")
+print 'BASE_DIR'
+print BASE_DIR
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
