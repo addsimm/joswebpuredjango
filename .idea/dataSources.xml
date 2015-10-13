@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1180508664">
+  <component name="DataSourceManagerImpl" format="xml">
     <data-source source="LOCAL" name="JOSRemote" uuid="0102d1d8-1118-46d1-a613-211aec064fd5">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <auto-commit>false</auto-commit>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://173.194.227.118 /test</jdbc-url>
+      <jdbc-url>jdbc:mysql://173.194.227.118/joswebbasesql</jdbc-url>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />

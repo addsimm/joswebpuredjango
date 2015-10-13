@@ -7,9 +7,9 @@
     </database-info>
     <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
     <schema name="" catalog="information_schema"/>
+    <schema name="" catalog="joswebbasesql"/>
     <schema name="" catalog="mysql"/>
     <schema name="" catalog="performance_schema"/>
-    <schema name="" catalog="test"/>
     <table name="CHARACTER_SETS" schema="" catalog="information_schema" type="SYSTEM VIEW">
       <column name="CHARACTER_SET_NAME" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
       <column name="DEFAULT_COLLATE_NAME" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
@@ -718,6 +718,546 @@
       <column name="CHARACTER_SET_CLIENT" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
       <column name="COLLATION_CONNECTION" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
     </table>
+    <table name="auth_group" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="80" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="group_id_refs_id_f4b32aac" table="auth_group_permissions" schema="" catalog="joswebbasesql" columns="group_id"/>
+      <exported-key name="group_id_refs_id_274b862c" table="auth_user_groups" schema="" catalog="joswebbasesql" columns="group_id"/>
+      <exported-key name="group_id_refs_id_5f980916" table="cms_globalpagepermission" schema="" catalog="joswebbasesql" columns="group_id"/>
+      <exported-key name="group_id_refs_id_65c5081c" table="cms_pagepermission" schema="" catalog="joswebbasesql" columns="group_id"/>
+      <exported-key name="group_ptr_id_refs_id_b270d7fc" table="cms_pageusergroup" schema="" catalog="joswebbasesql" columns="group_ptr_id"/>
+      <exported-key name="group_id_refs_id_f86eccc7" table="filer_folderpermission" schema="" catalog="joswebbasesql" columns="group_id"/>
+      <index name="name" unique="true" columns="name"/>
+    </table>
+    <table name="auth_group_permissions" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="group_id_refs_id_f4b32aac" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="permission_id_refs_id_6ba0f519" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="group_id" unique="true" columns="permission_id"/>
+      <index name="auth_group_permissions_5f412f9a" unique="false" columns="group_id"/>
+      <index name="auth_group_permissions_83d7f98b" unique="false" columns="permission_id"/>
+    </table>
+    <table name="auth_permission" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="codename" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="content_type_id_refs_id_d043b34a" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="permission_id_refs_id_6ba0f519" table="auth_group_permissions" schema="" catalog="joswebbasesql" columns="permission_id"/>
+      <exported-key name="permission_id_refs_id_35d9ac25" table="auth_user_user_permissions" schema="" catalog="joswebbasesql" columns="permission_id"/>
+      <index name="content_type_id" unique="true" columns="codename"/>
+      <index name="auth_permission_37ef4eb4" unique="false" columns="content_type_id"/>
+    </table>
+    <table name="auth_user" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="password" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_login" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="is_superuser" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="username" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="first_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="75" scale="0" nullable="false" jdbcType="12"/>
+      <column name="is_staff" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="is_active" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="date_joined" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="user_id_refs_id_40c41112" table="auth_user_groups" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <exported-key name="user_id_refs_id_4dc23c39" table="auth_user_user_permissions" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <exported-key name="user_id_refs_id_1f964794" table="cms_globalpagepermission" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <exported-key name="user_id_refs_id_e927b528" table="cms_pagepermission" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <exported-key name="created_by_id_refs_id_9da6953b" table="cms_pageuser" schema="" catalog="joswebbasesql" columns="created_by_id"/>
+      <exported-key name="user_ptr_id_refs_id_9da6953b" table="cms_pageuser" schema="" catalog="joswebbasesql" columns="user_ptr_id"/>
+      <exported-key name="created_by_id_refs_id_f9e2dd36" table="cms_pageusergroup" schema="" catalog="joswebbasesql" columns="created_by_id"/>
+      <exported-key name="user_id_refs_id_5f222118" table="cms_usersettings" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <exported-key name="user_id_refs_id_c0d12874" table="django_admin_log" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <exported-key name="user_id_refs_id_5b2d2788" table="filer_clipboard" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <exported-key name="owner_id_refs_id_a6490af8" table="filer_file" schema="" catalog="joswebbasesql" columns="owner_id"/>
+      <exported-key name="owner_id_refs_id_a9e7dcbc" table="filer_folder" schema="" catalog="joswebbasesql" columns="owner_id"/>
+      <exported-key name="user_id_refs_id_2bc29acf" table="filer_folderpermission" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <exported-key name="user_id_refs_id_e6cbdf29" table="social_auth_usersocialauth" schema="" catalog="joswebbasesql" columns="user_id"/>
+      <index name="username" unique="true" columns="username"/>
+    </table>
+    <table name="auth_user_groups" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="group_id_refs_id_274b862c" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_id_refs_id_40c41112" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="user_id" unique="true" columns="group_id"/>
+      <index name="auth_user_groups_5f412f9a" unique="false" columns="group_id"/>
+      <index name="auth_user_groups_6340c63c" unique="false" columns="user_id"/>
+    </table>
+    <table name="auth_user_user_permissions" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="permission_id_refs_id_35d9ac25" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_id_refs_id_4dc23c39" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="user_id" unique="true" columns="permission_id"/>
+      <index name="auth_user_user_permissions_6340c63c" unique="false" columns="user_id"/>
+      <index name="auth_user_user_permissions_83d7f98b" unique="false" columns="permission_id"/>
+    </table>
+    <table name="cms_aliaspluginmodel" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="cmsplugin_ptr_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="plugin_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="alias_placeholder_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="cmsplugin_ptr_id"/>
+      <foreign-key name="alias_placeholder_id_refs_id_2f6ab753" columns="alias_placeholder_id" ref-table="cms_placeholder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="cmsplugin_ptr_id_refs_id_9808644e" columns="cmsplugin_ptr_id" ref-table="cms_cmsplugin" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="plugin_id_refs_id_9808644e" columns="plugin_id" ref-table="cms_cmsplugin" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cms_aliaspluginmodel_3eeea141" unique="false" columns="alias_placeholder_id"/>
+      <index name="cms_aliaspluginmodel_c01cad29" unique="false" columns="plugin_id"/>
+    </table>
+    <table name="cms_cmsplugin" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="placeholder_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="parent_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="position" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <column name="language" sqlType="VARCHAR" precision="15" scale="0" nullable="false" jdbcType="12"/>
+      <column name="plugin_type" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="creation_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="changed_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="level" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="lft" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="rght" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="tree_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="parent_id_refs_id_8d462df0" columns="parent_id" ref-table="cms_cmsplugin" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="placeholder_id_refs_id_6e7caeb8" columns="placeholder_id" ref-table="cms_placeholder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="cmsplugin_ptr_id_refs_id_9808644e" table="cms_aliaspluginmodel" schema="" catalog="joswebbasesql" columns="cmsplugin_ptr_id"/>
+      <exported-key name="plugin_id_refs_id_9808644e" table="cms_aliaspluginmodel" schema="" catalog="joswebbasesql" columns="plugin_id"/>
+      <exported-key name="parent_id_refs_id_8d462df0" table="cms_cmsplugin" schema="" catalog="joswebbasesql" columns="parent_id"/>
+      <exported-key name="cmsplugin_ptr_id_refs_id_8cc1766a" table="cms_placeholderreference" schema="" catalog="joswebbasesql" columns="cmsplugin_ptr_id"/>
+      <index name="cms_cmsplugin_2037f56b" unique="false" columns="placeholder_id"/>
+      <index name="cms_cmsplugin_410d0aac" unique="false" columns="parent_id"/>
+      <index name="cms_cmsplugin_76886718" unique="false" columns="rght"/>
+      <index name="cms_cmsplugin_784efa61" unique="false" columns="language"/>
+      <index name="cms_cmsplugin_b8f3f94a" unique="false" columns="level"/>
+      <index name="cms_cmsplugin_d2e27db2" unique="false" columns="plugin_type"/>
+      <index name="cms_cmsplugin_f391089a" unique="false" columns="tree_id"/>
+      <index name="cms_cmsplugin_f777e2bb" unique="false" columns="lft"/>
+    </table>
+    <table name="cms_globalpagepermission" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="can_change" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_add" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_delete" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_change_advanced_settings" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_publish" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_change_permissions" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_move_page" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_view" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_recover_page" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="group_id_refs_id_5f980916" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_id_refs_id_1f964794" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="globalpagepermission_id_refs_id_09b826f9" table="cms_globalpagepermission_sites" schema="" catalog="joswebbasesql" columns="globalpagepermission_id"/>
+      <index name="cms_globalpagepermission_5f412f9a" unique="false" columns="group_id"/>
+      <index name="cms_globalpagepermission_6340c63c" unique="false" columns="user_id"/>
+    </table>
+    <table name="cms_globalpagepermission_sites" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="globalpagepermission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="site_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="globalpagepermission_id_refs_id_09b826f9" columns="globalpagepermission_id" ref-table="cms_globalpagepermission" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="site_id_refs_id_3757c4f9" columns="site_id" ref-table="django_site" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cms_globalpageper_globalpagepermission_id_1ffcd9d4c6c0cbfa_uniq" unique="true" columns="globalpagepermission_id,site_id"/>
+      <index name="cms_globalpagepermission_sites_99732b5c" unique="false" columns="site_id"/>
+      <index name="cms_globalpagepermission_sites_d39aba82" unique="false" columns="globalpagepermission_id"/>
+    </table>
+    <table name="cms_page" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="created_by" sqlType="VARCHAR" precision="70" scale="0" nullable="false" jdbcType="12"/>
+      <column name="changed_by" sqlType="VARCHAR" precision="70" scale="0" nullable="false" jdbcType="12"/>
+      <column name="parent_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="creation_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="changed_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="publication_date" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="publication_end_date" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="in_navigation" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="soft_root" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="reverse_id" sqlType="VARCHAR" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="navigation_extenders" sqlType="VARCHAR" precision="80" scale="0" nullable="true" jdbcType="12"/>
+      <column name="template" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="site_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="level" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="lft" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="rght" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="tree_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="login_required" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="limit_visibility_in_menu" sqlType="SMALLINT" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <column name="publisher_is_draft" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="publisher_public_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="revision_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="application_urls" sqlType="VARCHAR" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="application_namespace" sqlType="VARCHAR" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="is_home" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="languages" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="xframe_options" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="parent_id_refs_id_ca1f299f" columns="parent_id" ref-table="cms_page" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="publisher_public_id_refs_id_ca1f299f" columns="publisher_public_id" ref-table="cms_page" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="site_id_refs_id_5f61f09c" columns="site_id" ref-table="django_site" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="parent_id_refs_id_ca1f299f" table="cms_page" schema="" catalog="joswebbasesql" columns="parent_id"/>
+      <exported-key name="publisher_public_id_refs_id_ca1f299f" table="cms_page" schema="" catalog="joswebbasesql" columns="publisher_public_id"/>
+      <exported-key name="page_id_refs_id_88abf373" table="cms_page_placeholders" schema="" catalog="joswebbasesql" columns="page_id"/>
+      <exported-key name="page_id_refs_id_9d95001c" table="cms_pagepermission" schema="" catalog="joswebbasesql" columns="page_id"/>
+      <exported-key name="page_id_refs_id_0d5e81b6" table="cms_title" schema="" catalog="joswebbasesql" columns="page_id"/>
+      <index name="cms_page_publisher_is_draft_382d2913a1d40b79_uniq" unique="true" columns="publisher_is_draft,application_namespace"/>
+      <index name="cms_page_reverse_id_a864144bd3516c9_uniq" unique="true" columns="reverse_id,site_id,publisher_is_draft"/>
+      <index name="cms_page_410d0aac" unique="false" columns="parent_id"/>
+      <index name="cms_page_47dd39d3" unique="false" columns="reverse_id"/>
+      <index name="cms_page_5566f6cf" unique="false" columns="soft_root"/>
+      <index name="cms_page_5d1be695" unique="false" columns="navigation_extenders"/>
+      <index name="cms_page_76886718" unique="false" columns="rght"/>
+      <index name="cms_page_83b09d4f" unique="false" columns="limit_visibility_in_menu"/>
+      <index name="cms_page_8f14a007" unique="false" columns="publisher_is_draft"/>
+      <index name="cms_page_99732b5c" unique="false" columns="site_id"/>
+      <index name="cms_page_a49c2a2e" unique="false" columns="in_navigation"/>
+      <index name="cms_page_b8f3f94a" unique="false" columns="level"/>
+      <index name="cms_page_daea3734" unique="false" columns="application_urls"/>
+      <index name="cms_page_ecf7107f" unique="false" columns="publication_date"/>
+      <index name="cms_page_f391089a" unique="false" columns="tree_id"/>
+      <index name="cms_page_f777e2bb" unique="false" columns="lft"/>
+      <index name="cms_page_feb3af63" unique="false" columns="is_home"/>
+      <index name="cms_page_fef6ef40" unique="false" columns="publication_end_date"/>
+    </table>
+    <table name="cms_page_placeholders" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="page_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="placeholder_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="page_id_refs_id_88abf373" columns="page_id" ref-table="cms_page" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="placeholder_id_refs_id_0c0bdf3b" columns="placeholder_id" ref-table="cms_placeholder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cms_page_placeholders_page_id_598353cf6a0df834_uniq" unique="true" columns="page_id,placeholder_id"/>
+      <index name="cms_page_placeholders_2037f56b" unique="false" columns="placeholder_id"/>
+      <index name="cms_page_placeholders_3fb9c94f" unique="false" columns="page_id"/>
+    </table>
+    <table name="cms_pagepermission" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="can_change" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_add" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_delete" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_change_advanced_settings" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_publish" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_change_permissions" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_move_page" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_view" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="grant_on" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="page_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="group_id_refs_id_65c5081c" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="page_id_refs_id_9d95001c" columns="page_id" ref-table="cms_page" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_id_refs_id_e927b528" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cms_pagepermission_3fb9c94f" unique="false" columns="page_id"/>
+      <index name="cms_pagepermission_5f412f9a" unique="false" columns="group_id"/>
+      <index name="cms_pagepermission_6340c63c" unique="false" columns="user_id"/>
+    </table>
+    <table name="cms_pageuser" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="user_ptr_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_by_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="user_ptr_id"/>
+      <foreign-key name="created_by_id_refs_id_9da6953b" columns="created_by_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_ptr_id_refs_id_9da6953b" columns="user_ptr_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cms_pageuser_0c98d849" unique="false" columns="created_by_id"/>
+    </table>
+    <table name="cms_pageusergroup" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="group_ptr_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_by_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="group_ptr_id"/>
+      <foreign-key name="created_by_id_refs_id_f9e2dd36" columns="created_by_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="group_ptr_id_refs_id_b270d7fc" columns="group_ptr_id" ref-table="auth_group" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cms_pageusergroup_0c98d849" unique="false" columns="created_by_id"/>
+    </table>
+    <table name="cms_placeholder" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="slot" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="default_width" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="alias_placeholder_id_refs_id_2f6ab753" table="cms_aliaspluginmodel" schema="" catalog="joswebbasesql" columns="alias_placeholder_id"/>
+      <exported-key name="placeholder_id_refs_id_6e7caeb8" table="cms_cmsplugin" schema="" catalog="joswebbasesql" columns="placeholder_id"/>
+      <exported-key name="placeholder_id_refs_id_0c0bdf3b" table="cms_page_placeholders" schema="" catalog="joswebbasesql" columns="placeholder_id"/>
+      <exported-key name="placeholder_ref_id_refs_id_01a30ec3" table="cms_placeholderreference" schema="" catalog="joswebbasesql" columns="placeholder_ref_id"/>
+      <exported-key name="draft_id_refs_id_81bff591" table="cms_staticplaceholder" schema="" catalog="joswebbasesql" columns="draft_id"/>
+      <exported-key name="public_id_refs_id_81bff591" table="cms_staticplaceholder" schema="" catalog="joswebbasesql" columns="public_id"/>
+      <exported-key name="clipboard_id_refs_id_29248006" table="cms_usersettings" schema="" catalog="joswebbasesql" columns="clipboard_id"/>
+      <index name="cms_placeholder_d5d328be" unique="false" columns="slot"/>
+    </table>
+    <table name="cms_placeholderreference" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="cmsplugin_ptr_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="placeholder_ref_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="cmsplugin_ptr_id"/>
+      <foreign-key name="cmsplugin_ptr_id_refs_id_8cc1766a" columns="cmsplugin_ptr_id" ref-table="cms_cmsplugin" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="placeholder_ref_id_refs_id_01a30ec3" columns="placeholder_ref_id" ref-table="cms_placeholder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cmsplugin_placeholderreference_31844b32" unique="false" columns="placeholder_ref_id"/>
+    </table>
+    <table name="cms_staticplaceholder" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="code" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="draft_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="public_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="dirty" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="creation_method" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="site_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="draft_id_refs_id_81bff591" columns="draft_id" ref-table="cms_placeholder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="public_id_refs_id_81bff591" columns="public_id" ref-table="cms_placeholder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="site_id_refs_id_ed874bfd" columns="site_id" ref-table="django_site" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cms_staticplaceholder_code_6c6b490a9fe0e459_uniq" unique="true" columns="code,site_id"/>
+      <index name="cms_staticplaceholder_358ec2d1" unique="false" columns="draft_id"/>
+      <index name="cms_staticplaceholder_3ae7c6d0" unique="false" columns="public_id"/>
+      <index name="cms_staticplaceholder_99732b5c" unique="false" columns="site_id"/>
+    </table>
+    <table name="cms_title" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="language" sqlType="VARCHAR" precision="15" scale="0" nullable="false" jdbcType="12"/>
+      <column name="title" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="menu_title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="slug" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="path" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="has_url_overwrite" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="redirect" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="meta_description" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="page_title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="page_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="creation_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="published" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="publisher_is_draft" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="publisher_public_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="publisher_state" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="page_id_refs_id_0d5e81b6" columns="page_id" ref-table="cms_page" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="publisher_public_id_refs_id_579fc503" columns="publisher_public_id" ref-table="cms_title" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="publisher_public_id_refs_id_579fc503" table="cms_title" schema="" catalog="joswebbasesql" columns="publisher_public_id"/>
+      <index name="cms_title_language_7a69dc7eaf856287_uniq" unique="true" columns="language,page_id"/>
+      <index name="cms_title_0a4ff810" unique="false" columns="publisher_state"/>
+      <index name="cms_title_3fb9c94f" unique="false" columns="page_id"/>
+      <index name="cms_title_73e78684" unique="false" columns="path"/>
+      <index name="cms_title_784efa61" unique="false" columns="language"/>
+      <index name="cms_title_8f14a007" unique="false" columns="publisher_is_draft"/>
+      <index name="cms_title_94cdf987" unique="false" columns="has_url_overwrite"/>
+      <index name="cms_title_f52cfca0" unique="false" columns="slug"/>
+    </table>
+    <table name="cms_usersettings" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="language" sqlType="VARCHAR" precision="10" scale="0" nullable="false" jdbcType="12"/>
+      <column name="clipboard_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="clipboard_id_refs_id_29248006" columns="clipboard_id" ref-table="cms_placeholder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_id_refs_id_5f222118" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cms_usersettings_user_id_2cfe7a2128ccc2b3_uniq" unique="true" columns="user_id"/>
+      <index name="cms_usersettings_6340c63c" unique="false" columns="user_id"/>
+      <index name="cms_usersettings_8d9ffea2" unique="false" columns="clipboard_id"/>
+    </table>
+    <table name="django_admin_log" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="action_time" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="object_id" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="object_repr" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
+      <column name="action_flag" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="change_message" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="content_type_id_refs_id_93d2d1f8" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_id_refs_id_c0d12874" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="django_admin_log_37ef4eb4" unique="false" columns="content_type_id"/>
+      <index name="django_admin_log_6340c63c" unique="false" columns="user_id"/>
+    </table>
+    <table name="django_content_type" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="app_label" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="model" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="content_type_id_refs_id_d043b34a" table="auth_permission" schema="" catalog="joswebbasesql" columns="content_type_id"/>
+      <exported-key name="content_type_id_refs_id_93d2d1f8" table="django_admin_log" schema="" catalog="joswebbasesql" columns="content_type_id"/>
+      <exported-key name="polymorphic_ctype_id_refs_id_a03609f3" table="filer_file" schema="" catalog="joswebbasesql" columns="polymorphic_ctype_id"/>
+      <index name="app_label" unique="true" columns="app_label,model"/>
+    </table>
+    <table name="django_session" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="session_key" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="session_data" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="expire_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="session_key"/>
+      <index name="django_session_b7b81f0c" unique="false" columns="expire_date"/>
+    </table>
+    <table name="django_site" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="domain" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="site_id_refs_id_3757c4f9" table="cms_globalpagepermission_sites" schema="" catalog="joswebbasesql" columns="site_id"/>
+      <exported-key name="site_id_refs_id_5f61f09c" table="cms_page" schema="" catalog="joswebbasesql" columns="site_id"/>
+      <exported-key name="site_id_refs_id_ed874bfd" table="cms_staticplaceholder" schema="" catalog="joswebbasesql" columns="site_id"/>
+    </table>
+    <table name="filer_clipboard" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="user_id_refs_id_5b2d2788" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="clipboard_id_refs_id_fd11d4a0" table="filer_clipboarditem" schema="" catalog="joswebbasesql" columns="clipboard_id"/>
+      <index name="filer_clipboard_6340c63c" unique="false" columns="user_id"/>
+    </table>
+    <table name="filer_clipboarditem" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="file_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="clipboard_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="clipboard_id_refs_id_fd11d4a0" columns="clipboard_id" ref-table="filer_clipboard" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="file_id_refs_id_a869c276" columns="file_id" ref-table="filer_file" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="filer_clipboarditem_4e9667b7" unique="false" columns="file_id"/>
+      <index name="filer_clipboarditem_8d9ffea2" unique="false" columns="clipboard_id"/>
+    </table>
+    <table name="filer_file" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="folder_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="file" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="_file_size" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="has_all_mandatory_data" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="original_filename" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="owner_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="uploaded_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="modified_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="description" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="is_public" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="sha1" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="polymorphic_ctype_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="folder_id_refs_id_41348f39" columns="folder_id" ref-table="filer_folder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="owner_id_refs_id_a6490af8" columns="owner_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="polymorphic_ctype_id_refs_id_a03609f3" columns="polymorphic_ctype_id" ref-table="django_content_type" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="file_id_refs_id_a869c276" table="filer_clipboarditem" schema="" catalog="joswebbasesql" columns="file_id"/>
+      <exported-key name="file_ptr_id_refs_id_7375d00c" table="filer_image" schema="" catalog="joswebbasesql" columns="file_ptr_id"/>
+      <index name="filer_file_0022f76a" unique="false" columns="polymorphic_ctype_id"/>
+      <index name="filer_file_3aef490b" unique="false" columns="folder_id"/>
+      <index name="filer_file_cb902d83" unique="false" columns="owner_id"/>
+    </table>
+    <table name="filer_folder" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="parent_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="owner_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="uploaded_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="modified_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="lft" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="rght" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="tree_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="level" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="owner_id_refs_id_a9e7dcbc" columns="owner_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="parent_id_refs_id_42b2c54f" columns="parent_id" ref-table="filer_folder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="folder_id_refs_id_41348f39" table="filer_file" schema="" catalog="joswebbasesql" columns="folder_id"/>
+      <exported-key name="parent_id_refs_id_42b2c54f" table="filer_folder" schema="" catalog="joswebbasesql" columns="parent_id"/>
+      <exported-key name="folder_id_refs_id_b2c18baf" table="filer_folderpermission" schema="" catalog="joswebbasesql" columns="folder_id"/>
+      <index name="filer_folder_parent_id_30ad83e34d901e49_uniq" unique="true" columns="parent_id,name"/>
+      <index name="filer_folder_20e079f4" unique="false" columns="level"/>
+      <index name="filer_folder_329f6fb3" unique="false" columns="lft"/>
+      <index name="filer_folder_410d0aac" unique="false" columns="parent_id"/>
+      <index name="filer_folder_ba470c4a" unique="false" columns="tree_id"/>
+      <index name="filer_folder_cb902d83" unique="false" columns="owner_id"/>
+      <index name="filer_folder_e763210f" unique="false" columns="rght"/>
+    </table>
+    <table name="filer_folderpermission" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="folder_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="type" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="everybody" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="can_edit" sqlType="SMALLINT" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <column name="can_read" sqlType="SMALLINT" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <column name="can_add_children" sqlType="SMALLINT" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="folder_id_refs_id_b2c18baf" columns="folder_id" ref-table="filer_folder" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="group_id_refs_id_f86eccc7" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_id_refs_id_2bc29acf" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="filer_folderpermission_3aef490b" unique="false" columns="folder_id"/>
+      <index name="filer_folderpermission_5f412f9a" unique="false" columns="group_id"/>
+      <index name="filer_folderpermission_6340c63c" unique="false" columns="user_id"/>
+    </table>
+    <table name="filer_image" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="file_ptr_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="_height" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="_width" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="date_taken" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="default_alt_text" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="default_caption" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="author" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="must_always_publish_author_credit" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="must_always_publish_copyright" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="subject_location" sqlType="VARCHAR" precision="64" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="file_ptr_id"/>
+      <foreign-key name="file_ptr_id_refs_id_7375d00c" columns="file_ptr_id" ref-table="filer_file" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="menus_cachekey" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="language" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="site" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="key" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="social_auth_association" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="server_url" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="handle" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="secret" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="issued" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="lifetime" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="assoc_type" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="social_auth_code" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="email" sqlType="VARCHAR" precision="75" scale="0" nullable="false" jdbcType="12"/>
+      <column name="code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
+      <column name="verified" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="social_auth_code_email_75f27066d057e3b6_uniq" unique="true" columns="email,code"/>
+      <index name="social_auth_code_09bb5fb3" unique="false" columns="code"/>
+    </table>
+    <table name="social_auth_nonce" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="server_url" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="timestamp" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="salt" sqlType="VARCHAR" precision="65" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="social_auth_usersocialauth" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="provider" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
+      <column name="uid" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="extra_data" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="user_id_refs_id_e6cbdf29" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="joswebbasesql" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="social_auth_usersocialauth_provider_2f763109e2c4a1fb_uniq" unique="true" columns="provider,uid"/>
+      <index name="social_auth_usersocialauth_6340c63c" unique="false" columns="user_id"/>
+    </table>
+    <table name="south_migrationhistory" schema="" catalog="joswebbasesql" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="app_name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="migration" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="applied" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
     <table name="columns_priv" schema="" catalog="mysql" type="SYSTEM TABLE">
       <column name="Host" sqlType="CHAR" precision="60" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
       <column name="Db" sqlType="CHAR" precision="64" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
@@ -1071,154 +1611,6 @@
       <column name="authentication_string" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <column name="password_expired" sqlType="ENUM" precision="2" scale="0" nullable="false" jdbcType="1" def="J04n"/>
       <primary-key name="PRIMARY" columns="Host,User"/>
-    </table>
-    <table name="auth_group" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="80" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="group_id_refs_id_f4b32aac" table="auth_group_permissions" schema="" catalog="test" columns="group_id"/>
-      <exported-key name="group_id_refs_id_274b862c" table="auth_user_groups" schema="" catalog="test" columns="group_id"/>
-      <index name="name" unique="true" columns="name"/>
-    </table>
-    <table name="auth_group_permissions" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="group_id_refs_id_f4b32aac" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="permission_id_refs_id_6ba0f519" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="group_id" unique="true" columns="permission_id"/>
-      <index name="auth_group_permissions_5f412f9a" unique="false" columns="group_id"/>
-      <index name="auth_group_permissions_83d7f98b" unique="false" columns="permission_id"/>
-    </table>
-    <table name="auth_permission" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
-      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="codename" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="content_type_id_refs_id_d043b34a" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="permission_id_refs_id_6ba0f519" table="auth_group_permissions" schema="" catalog="test" columns="permission_id"/>
-      <exported-key name="permission_id_refs_id_35d9ac25" table="auth_user_user_permissions" schema="" catalog="test" columns="permission_id"/>
-      <index name="content_type_id" unique="true" columns="codename"/>
-      <index name="auth_permission_37ef4eb4" unique="false" columns="content_type_id"/>
-    </table>
-    <table name="auth_user" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="password" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
-      <column name="last_login" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="is_superuser" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
-      <column name="username" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="first_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="last_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="75" scale="0" nullable="false" jdbcType="12"/>
-      <column name="is_staff" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
-      <column name="is_active" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
-      <column name="date_joined" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="user_id_refs_id_40c41112" table="auth_user_groups" schema="" catalog="test" columns="user_id"/>
-      <exported-key name="user_id_refs_id_4dc23c39" table="auth_user_user_permissions" schema="" catalog="test" columns="user_id"/>
-      <exported-key name="user_id_refs_id_c0d12874" table="django_admin_log" schema="" catalog="test" columns="user_id"/>
-      <exported-key name="user_id_refs_id_e6cbdf29" table="social_auth_usersocialauth" schema="" catalog="test" columns="user_id"/>
-      <index name="username" unique="true" columns="username"/>
-    </table>
-    <table name="auth_user_groups" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="group_id_refs_id_274b862c" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="user_id_refs_id_40c41112" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="user_id" unique="true" columns="group_id"/>
-      <index name="auth_user_groups_5f412f9a" unique="false" columns="group_id"/>
-      <index name="auth_user_groups_6340c63c" unique="false" columns="user_id"/>
-    </table>
-    <table name="auth_user_user_permissions" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="permission_id_refs_id_35d9ac25" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="user_id_refs_id_4dc23c39" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="user_id" unique="true" columns="permission_id"/>
-      <index name="auth_user_user_permissions_6340c63c" unique="false" columns="user_id"/>
-      <index name="auth_user_user_permissions_83d7f98b" unique="false" columns="permission_id"/>
-    </table>
-    <table name="django_admin_log" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="action_time" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="object_id" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="object_repr" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
-      <column name="action_flag" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
-      <column name="change_message" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="content_type_id_refs_id_93d2d1f8" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="user_id_refs_id_c0d12874" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="django_admin_log_37ef4eb4" unique="false" columns="content_type_id"/>
-      <index name="django_admin_log_6340c63c" unique="false" columns="user_id"/>
-    </table>
-    <table name="django_content_type" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
-      <column name="app_label" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
-      <column name="model" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="content_type_id_refs_id_d043b34a" table="auth_permission" schema="" catalog="test" columns="content_type_id"/>
-      <exported-key name="content_type_id_refs_id_93d2d1f8" table="django_admin_log" schema="" catalog="test" columns="content_type_id"/>
-      <index name="app_label" unique="true" columns="app_label,model"/>
-    </table>
-    <table name="django_session" schema="" catalog="test" type="TABLE">
-      <column name="session_key" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
-      <column name="session_data" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="expire_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="session_key"/>
-      <index name="django_session_b7b81f0c" unique="false" columns="expire_date"/>
-    </table>
-    <table name="django_site" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="domain" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
-      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="social_auth_association" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="server_url" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="handle" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="secret" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="issued" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="lifetime" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="assoc_type" sqlType="VARCHAR" precision="64" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="social_auth_code" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="email" sqlType="VARCHAR" precision="254" scale="0" nullable="false" jdbcType="12"/>
-      <column name="code" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
-      <column name="verified" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <index name="email" unique="true" columns="email,code"/>
-      <index name="social_auth_code_09bb5fb3" unique="false" columns="code"/>
-    </table>
-    <table name="social_auth_nonce" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="server_url" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="timestamp" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="salt" sqlType="VARCHAR" precision="65" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <index name="server_url" unique="true" columns="server_url,timestamp,salt"/>
-    </table>
-    <table name="social_auth_usersocialauth" schema="" catalog="test" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="provider" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
-      <column name="uid" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="extra_data" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="user_id_refs_id_e6cbdf29" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="test" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="provider" unique="true" columns="provider,uid"/>
-      <index name="social_auth_usersocialauth_6340c63c" unique="false" columns="user_id"/>
     </table>
   </data-source>
 </component>

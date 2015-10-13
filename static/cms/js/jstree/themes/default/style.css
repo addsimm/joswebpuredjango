@@ -1,26 +1,26 @@
 /* DOTS */
 .tree .tree-default, 
 .tree .tree-default ul {
-	background-image:url("dot.gif");
+	background-image:url("cms/js/jstree/themes/default/dot.gif");
 }
 .tree .tree-default li {
-	background-image:url("li.gif");
+	background-image:url("cms/js/jstree/themes/default/li.gif");
 }
 .tree .tree-default li.last {
-	background-image:url("lastli.gif");
+	background-image:url("cms/js/jstree/themes/default/lastli.gif");
 }
 
 /* OPEN or CLOSED */
 .tree .tree-default li.open {
-	background:url("fminus.gif") 0px 0px no-repeat;
+	background:url("cms/js/jstree/themes/default/fminus.gif") 0px 0px no-repeat;
 }
 
 .tree .tree-default li.closed {
-	background:url("fplus.gif") 0px 0px no-repeat;
+	background:url("cms/js/jstree/themes/default/fplus.gif") 0px 0px no-repeat;
 }
 
 .tree .tree-default #dragged li.open {
-	background:url("fplus.gif") 5px 5px no-repeat;
+	background:url("cms/js/jstree/themes/default/fplus.gif") 5px 5px no-repeat;
 }
 
 /* RIGHT TO LEFT SUPPORT */
@@ -28,17 +28,17 @@
 	margin-right:1px;
 }
 .rtl .tree-default li.last {
-	background-image:url("lastli_rtl.gif");
+	background-image:url("cms/js/jstree/themes/default/lastli_rtl.gif");
 	margin-right:0;
 	padding-right:16px;
 }
 .rtl .tree-default li.open {
-	background:url("fminus_rtl.gif") right 6px no-repeat;
+	background:url("cms/js/jstree/themes/default/fminus_rtl.gif") right 6px no-repeat;
 	margin-right:0;
 	padding-right:16px;
 }
 .rtl .tree-default li.closed {
-	background:url("fplus_rtl.gif") right 4px no-repeat;
+	background:url("cms/js/jstree/themes/default/fplus_rtl.gif") right 4px no-repeat;
 	margin-right:0;
 	padding-right:16px;
 }
@@ -48,7 +48,7 @@
 
 /* DEFAULT ICON */
 .tree .tree-default li a.title{
-	background-image:url("f.png");
+	background-image:url("cms/js/jstree/themes/default/f.png");
 }
 
 /* CONTEXT MENU 

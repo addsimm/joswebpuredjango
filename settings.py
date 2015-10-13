@@ -26,7 +26,7 @@ if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
         'default': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '/cloudsql/joswebbase:joswebbasecloudsqlinstance',
-        'NAME': 'test',
+        'NAME': 'joswebbasesql',
         'USER': 'root',
         'PASSWORD': 'Pokey'
         # 'OPTIONS':  {
@@ -44,7 +44,7 @@ else:
         'default': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '173.194.227.118',
-        'NAME': 'test',
+        'NAME': 'joswebbasesql',
         'USER': 'adam',
         'PASSWORD': 'Pokey',
         'OPTIONS':  {
@@ -200,7 +200,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 CMS_TEMPLATES = (
-    ('template_1.html', 'Template One'),
+    ('landing_page.html', 'Template One'),
     ('template_2.html', 'Template Two'),
 )
 

@@ -1,6 +1,7 @@
 <!-- BASE.html -->
 <!DOCTYPE html>
 <html>
+{% load cms_tags sekizai_tags %} <!-- Sekizai -->
 <head>
     <meta charset = "utf-8">
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
@@ -10,7 +11,8 @@
     <!-- Scripts -->
     {% include "base/scripts.html" %}
 
-    <!-- BASE.html -->
+    <!-- CSS -->
+    {% render_block "css" %}
     <style>
 
         * {
@@ -47,7 +49,11 @@
     <title>JoinOurStory | {{ page_name }}</title>
 </head>
 
-<body>
+<body><!-- CMS Crap -->
+      {% cms_toolbar %}
+      {% placeholder base_content %}
+      {% block base_content %}{% endblock %}
+      {% render_block "js" %}
 
 <div class = "container" style = ""> <!-- Main Screen -->
 

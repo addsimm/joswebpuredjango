@@ -5,7 +5,7 @@
 
 //##################################################
 // #IMPORT SETTINGS#
-@import "settings/default";
+@import "cms/sass/settings/default";
 
 //##################################################
 // #RESET#
@@ -55,12 +55,12 @@
 
 //##################################################
 // #TOOLBAR#
-@import "includes/common";
-@import "includes/content";
-@import "includes/toolbar";
-@import "includes/modal";
-@import "includes/sideframe";
-@import "includes/clipboard";
-@import "includes/structureboard";
-@import "includes/subnav";
-@import "includes/retina";
+@import "cms/sass/includes/common";
+@import "cms/sass/includes/content";
+@import "cms/sass/includes/toolbar";
+@import "cms/sass/includes/modal";
+@import "cms/sass/includes/sideframe";
+@import "cms/sass/includes/clipboard";
+@import "cms/sass/includes/structureboard";
+@import "cms/sass/includes/subnav";
+@import "cms/sass/includes/retina";
