@@ -226,6 +226,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'social.apps.django_app.default',
     'cms',  # django CMS itself
+    'reversion',
     'mptt',  # utilities for implementing a tree
     'menus',  # helper for model independent hierarchical website navigation
     'south',  # Only needed for Django < 1.7
